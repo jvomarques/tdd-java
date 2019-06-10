@@ -11,6 +11,10 @@ public class Locacao {
 	private Date dataRetorno;
 	private Double valor;
 	
+	public Locacao() {
+		this.filmes = new ArrayList<Filme>();
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}

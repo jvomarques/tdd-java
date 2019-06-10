@@ -2,6 +2,7 @@ package com.java.tdd.servicos;
 
 import static com.java.tdd.utils.DataUtils.adicionarDias;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Test;
@@ -13,13 +14,24 @@ import com.java.tdd.utils.DataUtils;
 
 public class LocacaoService {
 	
-	public Locacao alugarFilme(Usuario usuario, Filme filme) {
+	public Locacao alugarFilmes(Usuario usuario, ArrayList<Filme> filmes) throws Exception {
+		
 		Locacao locacao = new Locacao();
-		locacao.addFilme(filme);
+		Double valorTotalLocacao = 0.0;
+		
+		for(int i = 0; i < filmes.size();i++) {
+			
+			if(filmes.get(i).getEstoque() <= 0)
+				throw new Exception(filmes.get(i).getNome() + " não está disponíel em estoque.");
+			
+			locacao.addFilme(filmes.get(i));
+			valorTotalLocacao += filmes.get(i).getPrecoLocacao();
+		}
+		
+		locacao.setValor(valorTotalLocacao);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
 		
-		locacao.setValor(filme.getPrecoLocacao());
 
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
